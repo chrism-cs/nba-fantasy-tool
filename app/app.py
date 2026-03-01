@@ -12,20 +12,19 @@ def get_info_today(date):
         todays_data = response.json()
         return todays_data
     else:
-        print(f"Failed to retrieve data, response code: {response.status_code}")
+        print(f"Failed to retrieve data, response code: {response.status_code}")    
 
 today = "20260228"
 todays_info = get_info_today(today)
 
-# Values used to navigate through the JSON dictionary
-events_id = 0
-competitions_id = 0
-competitors_id = 0
-# The 'attribute' we want to find, such as 
-# displayName : the team's name
-# logo : the teams logo etc.
-attribute = "displayName"
-base_JSON_request = f"{todays_info["events"][events_id]["competitions"][competitions_id]["competitors"][competitors_id]["team"][attribute]}"
+def get_teams_today():
+    for games in range(len(todays_info["events"])):
+        # Home team
+        base_JSON_request = f"{todays_info["events"][games]["competitions"][0]["competitors"][0]["team"]["displayName"]}"
+        print(base_JSON_request)
 
-if todays_info:
-    print(base_JSON_request)
+        # Away team
+        base_JSON_request = f"{todays_info["events"][games]["competitions"][0]["competitors"][1]["team"]["displayName"]}"
+        print(base_JSON_request)
+
+get_teams_today()
